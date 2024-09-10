@@ -1,10 +1,10 @@
 import React from "react"
 import { useForm } from "react-hook-form" // react-hook-form을 사용하여 폼 데이터를 쉽게 관리
 import { yupResolver } from "@hookform/resolvers/yup" // react-hook-form과 yup을 연결
-import { signupSchema } from "../validationSchemas" // yup으로 만든 유효성 검사 스키마
+import { signupSchema } from "../../validationSchemas" // yup으로 만든 유효성 검사 스키마
 import axios from "axios" // 서버와의 HTTP 요청을 위한 라이브러리
 import { useDispatch } from "react-redux"
-import { login } from "../store/auth/authSlice" // login action 가져오기
+import { login } from "../../store/auth/authSlice" // login action 가져오기
 
 // 폼에 입력될 데이터 형식을 인터페이스로 정의
 interface SignUpFormInputs {

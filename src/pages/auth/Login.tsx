@@ -1,10 +1,10 @@
 import React from "react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { loginSchema } from "../validationSchemas" // 로그인용 유효성 검사 스키마
+import { loginSchema } from "../../validationSchemas" // 로그인용 유효성 검사 스키마
 import axios from "axios"
 import { useDispatch } from "react-redux"
-import { login } from "../store/auth/authSlice" // login action 가져오기
+import { login } from "../../store/auth/authSlice" // login action 가져오기
 
 // 로그인 폼에 입력될 데이터 형식을 정의
 interface LoginFormInputs {
