@@ -1,26 +1,19 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react"
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
+import SignUp from "./pages/SignUp" // 회원가입 페이지 컴포넌트
+import Login from "./pages/Login" // 로그인 페이지 컴포넌트
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Router>
+      <Routes>
+        {/* 회원가입 페이지 라우트 */}
+        <Route path="/signup" element={<SignUp />} />
+        {/* 로그인 페이지 라우트 */}
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </Router>
+  )
 }
 
-export default App;
+export default App
