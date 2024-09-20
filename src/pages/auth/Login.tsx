@@ -5,57 +5,71 @@ import { loginSchema } from "../../validationSchemas" // 로그인용 유효성 
 import axios from "axios"
 import { useDispatch } from "react-redux"
 import { login } from "../../store/auth/authSlice" // login action 가져오기
+import "../../styles/Login.scss"
 
-// 로그인 폼에 입력될 데이터 형식을 정의
+// 로그인 폼에 입력될 데이터의 타입 정의
 interface LoginFormInputs {
-  email: string
-  password: string
+  email: string;
+  password: string;
 }
 
 const Login: React.FC = () => {
-  // useForm 훅을 사용하여 폼 상태 관리. yupResolver를 통해 yup 스키마와 연결
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormInputs>({
-    resolver: yupResolver(loginSchema), // 유효성 검사를 yup으로 설정
-  })
+  // react-hook-form을 사용하여 폼 상태 관리
+  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormInputs>({
+    resolver: yupResolver(loginSchema), // yup 스키마로 유효성 검사
+  });
 
-  const dispatch = useDispatch() // Redux dispatch 사용
+  const dispatch = useDispatch(); // Redux dispatch 함수
 
   // 폼 제출 시 실행될 함수
   const onSubmit = async (data: LoginFormInputs) => {
     try {
-      // 서버로 로그인 정보를 전송 (POST 요청)
-      const response = await axios.post("/api/login", data)
-      console.log(response.data) // 서버에서 받은 응답 데이터를 콘솔에 출력
+      // 서버에 로그인 정보 전송
+      const response = await axios.post('/api/login', data);
+      console.log(response.data); // 서버 응답 로그
 
-      // 로그인 성공 시 사용자 정보를 Redux 상태에 저장
-      dispatch(login({ username: "User", email: data.email }))
+      // 로그인 성공 시 Redux 상태 업데이트
+      dispatch(login({ username: 'User', email: data.email }));
     } catch (error) {
-      console.error(error) // 에러 발생 시 콘솔에 출력
+      console.error(error); // 에러 발생 시 로그
     }
-  }
+  };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {/* 이메일 입력 필드 */}
-      <div>
-        <label>Email</label>
-        <input {...register("email")} />
-        <p>{errors.email?.message}</p>{" "}
-        {/* 유효성 검사 실패 시 에러 메시지 출력 */}
-      </div>
-      {/* 비밀번호 입력 필드 */}
-      <div>
-        <label>Password</label>
-        <input type="password" {...register("password")} />
-        <p>{errors.password?.message}</p>
-      </div>
-      <button type="submit">Login</button> {/* 폼 제출 버튼 */}
-    </form>
-  )
-}
+    <div className="login-container">
+      <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
+        <h2>Login</h2>
+        
+        {/* 이메일 입력 필드 */}
+        <div className="form-group">
+          <label htmlFor="email">Email</label>
+          <input 
+            id="email" 
+            {...register('email')} 
+            className={`input ${errors.email ? 'input-error' : ''}`} 
+            placeholder="Enter your email"
+          />
+          {errors.email && <p className="error-message">{errors.email.message}</p>}
+        </div>
 
-export default Login
+        {/* 비밀번호 입력 필드 */}
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <input 
+            id="password" 
+            type="password" 
+            {...register('password')} 
+            className={`input ${errors.password ? 'input-error' : ''}`} 
+            placeholder="Enter your password"
+          />
+          {errors.password && <p className="error-message">{errors.password.message}</p>}
+        </div>
+
+        {/* 제출 버튼 */}
+        <button type="submit" className="btn-submit">Login</button>
+      </form>
+    </div>
+  );
+};
+
+export default Login;
